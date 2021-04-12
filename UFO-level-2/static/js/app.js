@@ -25,6 +25,48 @@ var button = d3.select("#filter-btn");
 button.on("click", runEnter);
 form.on("submit", runEnter);
 
+d3.selectAll(".filter").on("change", updateFilters)
+
+//create filter so there isn't a constraint to have input in all fields.
+var filters = {}
+
+function updateFilters() {
+    //need to loop through 
+    var input = d3.select(this).select("input");
+    var inputValue = input.property("value");
+    var inputID = inputValue.attr("id");
+
+    var inputDate = d3.select("#datetime").property("value");
+    var inputCity = d3.select("#city").property("value");
+    
+    if (inputValue) {
+        filters[inputID] = inputValue
+    }
+    else {
+        delete filters[inputID]
+    }
+
+    //if there's an input push to our dictionary.
+    if (inputDate) {
+        filters['datetime'] = inputDate;
+    }
+    else if (inputCity) {
+        filters['city'] = inputCity;
+    }
+    else {
+        
+    };
+    var filters = {"date": inputDate, "city":inputCity};
+
+    //set filtered data to the original data
+
+
+    //filter by two values
+    Object.values(filters).forEach((value) => {
+        var filteredData = tableData.filter(row[key] === value)
+    });
+};
+
 // Complete the event handler function for the form
 function runEnter() {
     // Prevent the page from refreshing
